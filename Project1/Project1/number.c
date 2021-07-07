@@ -53,6 +53,7 @@ int Error_input(char* str, int size, int syst)//функци€ обработки ошибок ввода с
 	{
 		printf("¬ведена неверна€ система счислени€ %d", syst);
 		exit(syst);
+		system("pause");
 	}
 
 	//проверка на соотвествие системе счислени€
@@ -68,6 +69,7 @@ int Error_input(char* str, int size, int syst)//функци€ обработки ошибок ввода с
 	{
 		printf("¬веденные данные не соответствуют системе счислени€");
 		exit(syst);
+		system("pause");
 	}
 
 	//проверка на посторонние символы в строке
@@ -79,6 +81,7 @@ int Error_input(char* str, int size, int syst)//функци€ обработки ошибок ввода с
 		{
 			printf("¬ведена некорректна€ строка");
 			exit(number[i]);
+			system("pause");
 		}
 	}
 }
