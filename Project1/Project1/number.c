@@ -144,13 +144,8 @@ int str_number()//строка->число
 			interim = syst;
 
 		rez += mass_number[i] * interim;
-		if (rez > 2147483647)
-		{
-			printf("Переполнение int");
-			exit(1);
-		}
 
-		power += 1;
+		power++;
 	}
 
 	printf("Число: %d", rez);
