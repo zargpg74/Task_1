@@ -87,7 +87,7 @@ int Error_input(char* str, int size, int syst)//функция обработки ошибок ввода с
 }
 
 
-int notation(char*str, int size, int syst)
+int notation(char*str, int size, int syst)//если система счисления введена 0, то она определяется автоматически
 {
 	int* number = (int*)malloc(size * sizeof(int));
 	number = trans_number(str, size);
