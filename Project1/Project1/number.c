@@ -51,7 +51,6 @@ int Error_input(char* str, int size, int syst)//функция обработки ошибок ввода с
 	//проверка системы счисления
 	if ((syst < 2) || (syst > 61))
 	{
-		system("cls");
 		printf("Введена неверная система счисления %d", syst);
 		exit(syst);
 	}
@@ -67,7 +66,6 @@ int Error_input(char* str, int size, int syst)//функция обработки ошибок ввода с
 	}
 	if (max + 1 > syst)
 	{
-		system("cls");
 		printf("Введенные данные не соответствуют системе счисления");
 		exit(syst);
 	}
@@ -79,7 +77,6 @@ int Error_input(char* str, int size, int syst)//функция обработки ошибок ввода с
 			max = 1;
 		else
 		{
-			system("cls");
 			printf("Введена некорректная строка");
 			exit(number[i]);
 		}
@@ -105,8 +102,6 @@ int notation(char*str, int size, int syst)//если система счисления введена 0, то
 
 int str_number()//строка->число
 {
-	system("cls");
-	
 	printf("Введите систему счисления: ");
 	int syst;
 	scanf_s("%d", &syst);
@@ -146,6 +141,11 @@ int str_number()//строка->число
 			interim = syst;
 
 		rez += mass_number[i] * interim;
+		if (rez > 2147483647)
+		{
+			printf("Переполнение int");
+			exit(1);
+		}
 
 		power += 1;
 	}

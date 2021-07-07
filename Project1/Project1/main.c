@@ -25,17 +25,26 @@ void main()
 	system("cls");
 	setlocale(0, "ru");
 	
-	printf("Выберите вариант перевода:\n1) Из строки в число\n2) Из числа в строку\nВаш вариант: ");
-	int choice;
-	scanf_s("%d", &choice);
-	switch (choice)
+	while (1)
 	{
-	case 1:
-		str_number();
-		break;
-	default:
-		printf("Такого варианта не существует, попробуйте еще раз: ");
+		printf("Выберите вариант перевода:\n1) Из строки в число\n2) Из числа в строку\n3) Выход\nВаш вариант: ");
+		int choice;
 		scanf_s("%d", &choice);
-		Choice(choice);
+		switch (choice)
+		{
+		case 1:
+			str_number();
+			break;
+		case 3:
+			exit(0);
+		default:
+			printf("Такого варианта не существует, попробуйте еще раз: ");
+			scanf_s("%d", &choice);
+			Choice(choice);
+		}
+
+		printf("\n---------------------------------\n");
 	}
+
+	system("pause");
 }
