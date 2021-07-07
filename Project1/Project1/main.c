@@ -4,6 +4,22 @@
 
 #include"number.h"
 
+
+int Choice(int choice)
+{
+	switch (choice)
+	{
+	case 1:
+		str_number();
+		break;
+	default:
+		printf("Такого варианта не существует, попробуйте еще раз: ");
+		scanf_s("%d", &choice);
+		Choice(choice);
+	}
+}
+
+
 void main()
 {
 	system("cls");
@@ -18,9 +34,8 @@ void main()
 		str_number();
 		break;
 	default:
-		printf("Такого варианта не существует");
-		exit(choice);
+		printf("Такого варианта не существует, попробуйте еще раз: ");
+		scanf_s("%d", &choice);
+		Choice(choice);
 	}
-
-
 }
