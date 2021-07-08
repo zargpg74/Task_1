@@ -25,11 +25,13 @@ char* trans_str(int* mass_number, int size, int flag)
 
 	char* str = (char*)malloc(size * sizeof(char));//строка 
 
+	//сопоставление элементов по внутреннему алфавиту
 	for (int i = 0; i < 10; i++)
 	{
-		if ((mass_number[i] >= 0) && (mass_number[i] <= 9))
+		if ((mass_number[i] >= 0) && (mass_number[i] <= 9))//если числа из массива можно записать без букв, то используем коды ASCII
 			str[i] = mass_number[i] + 48;
 		else
+		//если числа больше 9, тогда используем внутренний алфавит для записи их в виде букв
 		{
 			for (int j = 0; j < 26; j++)
 			{
@@ -41,6 +43,7 @@ char* trans_str(int* mass_number, int size, int flag)
 		}
 	}
 
+	//если флаг равен -1, тогда в конец строки запишем "-", потому что вывод строки будет с конца
 	if (flag = -1)
 	{
 		str = (char*)realloc(str, (size + 1) * sizeof(char));
@@ -67,27 +70,31 @@ int number_str()
 	int* mass_number = NULL;//промежуточный массив
 	int size = 0;
 	int flag = 0;
-	if (number < 0)
+
+	if (number < 0)//если число меньше 0, тогда домножим его на -1 и запишем это в флаг
 	{
 		number *= -1;
 		flag = -1;
 	}
-	while (number % syst < number)
+
+	while (number % syst < number)//алгоритм перевода из 10 СС в любую
 	{
 		mass_number = (int*)realloc(mass_number, (size + 1) * sizeof(int));
 		mass_number[size] = number % syst;
 		number /= syst;
 		size++;
 	}
-	mass_number[size] = number;
+	mass_number[size] = number;//записываем так же последнее значение
 	size++;
 
+	//строка результата
 	char* str = (char*)malloc(size * sizeof(char));
 	str = trans_str(mass_number, size, flag);
 
-	if (flag = -1)
+	if (flag = -1)//если флаг -1, тогда увеличим размер на 1, потому что в конце строки лежит дополнительный -
 		size++;
 
+	//вывод строки
 	printf("Строка: ");
 	for (int i = size - 1; i >= 0; i--)
 		printf("%c", str[i]);
