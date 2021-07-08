@@ -5,7 +5,7 @@
 
 #include"number.h"
 
-int* trans_number(char* str, int size)//перевод строки в массив чисел
+int* trans_number(char* str, int size, int flag)//перевод строки в массив чисел
 {
 	//массивы соотвествий для больших систем счисления
 	char* low = "abcdefghijklmnopqrstuvwxyz";
@@ -18,6 +18,12 @@ int* trans_number(char* str, int size)//перевод строки в массив чисел
 
 	for (int i = 0; i < size; i++)
 	{
+		if ((flag == -1) && (i == 0))
+		{
+			mass_number[i] = -1;
+			continue;
+		}
+
 		if ((str[i] >= '0') && (str[i] <= '9'))
 			mass_number[i] = str[i] - 48;
 		else
@@ -46,7 +52,7 @@ int POW(num, power)//возведение в степень
 }
 
 
-int Error_input(char* str, int size, int syst)//функция обработки ошибок ввода строки
+int Error_input(char* str, int size, int syst, int flag)//функция обработки ошибок ввода строки
 {
 	//проверка системы счисления
 	if ((syst < 2) || (syst > 61))
@@ -58,7 +64,7 @@ int Error_input(char* str, int size, int syst)//функция обработки ошибок ввода с
 
 	//проверка на соотвествие системе счисления
 	int* number = (int*)malloc(size * sizeof(int));
-	number = trans_number(str, size);
+	number = trans_number(str, size, flag);
 	int max = 0;
 	for (int i = 0; i < size; i++)
 	{
@@ -75,9 +81,9 @@ int Error_input(char* str, int size, int syst)//функция обработки ошибок ввода с
 	//проверка на посторонние символы в строке
 	for (int i = 0; i < size; i++)
 	{
-		if ((number[i] >= 0) && (number[i] <= 61))
+		if ((number[i] >= -1) && (number[i] <= 61))
 			max = 1;
-		else
+		else 
 		{
 			printf("Введена некорректная строка");
 			exit(number[i]);
@@ -87,10 +93,10 @@ int Error_input(char* str, int size, int syst)//функция обработки ошибок ввода с
 }
 
 
-int notation(char*str, int size, int syst)//если система счисления введена 0, то она определяется автоматически
+int notation(char*str, int size, int syst, int flag)//если система счисления введена 0, то она определяется автоматически
 {
 	int* number = (int*)malloc(size * sizeof(int));
-	number = trans_number(str, size);
+	number = trans_number(str, size, flag);
 	int max = 0;
 	for (int i = 0; i < size; i++)
 	{
@@ -109,6 +115,8 @@ int str_number()//строка->число
 	int syst;
 	scanf_s("%d", &syst);
 
+	int flag = 0;
+
 	//ввод строки
 	printf("Введите строку: ");
 	char* str = NULL, symbol;
@@ -122,19 +130,25 @@ int str_number()//строка->число
 		size++;
 		symbol = fgetc(stdin);
 	}
+	
+	if (str[0] == '-')
+		flag = -1;
 
+	//если система счисления введена 0, то определяем ее автоматически по наибольшему элементу
 	if (syst == 0)
-		syst = notation(str, size, syst);
-	Error_input(str, size, syst);
+		syst = notation(str, size, syst, flag);
+	Error_input(str, size, syst, flag);
 
 	//получаем преобразованный массив чисел
 	int* mass_number = (int*)malloc(size * sizeof(int));
-	mass_number = trans_number(str, size);
+	mass_number = trans_number(str, size, flag);
 
 	//переводим массив чисел в десятичную систему счисления и записываем в результат
 	int rez = 0, power = 0;
-	for (int i = size - 1; i >= 0; i--)
+	for (int i = size-1; i >= 0; i--)
 	{
+		if (mass_number[i] == -1)
+			continue;
 		int interim;
 		if (power > 1)
 			interim = POW(syst, power);
@@ -147,6 +161,9 @@ int str_number()//строка->число
 
 		power++;
 	}
+
+	if (flag == -1)
+		rez *= -1;
 
 	printf("Число: %d", rez);
 }

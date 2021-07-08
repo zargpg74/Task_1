@@ -15,7 +15,7 @@ int Error_input_str(int syst)//проверка на корректность введенных данных
 	}
 }
 
-char* trans_str(int* mass_number, int size)
+char* trans_str(int* mass_number, int size, int flag)
 {
 	//массивы соотвествий для больших систем счисления
 	char* low = "abcdefghijklmnopqrstuvwxyz";
@@ -41,6 +41,12 @@ char* trans_str(int* mass_number, int size)
 		}
 	}
 
+	if (flag = -1)
+	{
+		str = (char*)realloc(str, (size + 1) * sizeof(char));
+		str[size] = '-';
+	}
+
 	return(str);
 }
 
@@ -60,6 +66,12 @@ int number_str()
 	//перевод в указанную систему счисления
 	int* mass_number = NULL;//промежуточный массив
 	int size = 0;
+	int flag = 0;
+	if (number < 0)
+	{
+		number *= -1;
+		flag = -1;
+	}
 	while (number % syst < number)
 	{
 		mass_number = (int*)realloc(mass_number, (size + 1) * sizeof(int));
@@ -71,7 +83,10 @@ int number_str()
 	size++;
 
 	char* str = (char*)malloc(size * sizeof(char));
-	str = trans_str(mass_number, size);
+	str = trans_str(mass_number, size, flag);
+
+	if (flag = -1)
+		size++;
 
 	printf("Строка: ");
 	for (int i = size - 1; i >= 0; i--)
